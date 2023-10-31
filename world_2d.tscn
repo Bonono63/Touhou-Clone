@@ -1,0 +1,44 @@
+[gd_scene load_steps=9 format=3 uid="uid://bb07lkdu7majg"]
+
+[ext_resource type="Script" path="res://level01.gd" id="1_7jkdu"]
+[ext_resource type="Script" path="res://Player.gd" id="1_lyn6n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r1ewe"]
+size = Vector2(32, 32)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_s2d1a"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_ol08a"]
+material = SubResource("StandardMaterial3D_s2d1a")
+size = Vector2(32, 32)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_aenby"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ymb0p"]
+width = 16
+height = 16
+noise = SubResource("FastNoiseLite_aenby")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_apdhw"]
+size = Vector2(34, 34)
+
+[node name="Level 01" type="Node2D"]
+script = ExtResource("1_7jkdu")
+
+[node name="Player" type="CharacterBody2D" parent="."]
+motion_mode = 1
+script = ExtResource("1_lyn6n")
+
+[node name="player hard collision" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_r1ewe")
+
+[node name="Sprite" type="MeshInstance2D" parent="Player"]
+texture_filter = 1
+mesh = SubResource("QuadMesh_ol08a")
+texture = SubResource("NoiseTexture2D_ymb0p")
+
+[node name="Hitbox" type="Area2D" parent="Player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hitbox"]
+position = Vector2(0.109985, -0.199005)
+shape = SubResource("RectangleShape2D_apdhw")

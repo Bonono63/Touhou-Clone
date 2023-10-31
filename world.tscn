@@ -1,0 +1,161 @@
+[gd_scene load_steps=17 format=3 uid="uid://bg2v16xoehg44"]
+
+[ext_resource type="Script" path="res://camera.gd" id="1_s73ak"]
+[ext_resource type="Script" path="res://FPS.gd" id="1_yhw17"]
+[ext_resource type="Script" path="res://label.gd" id="2_be7dk"]
+[ext_resource type="PackedScene" uid="uid://bb07lkdu7majg" path="res://world_2d.tscn" id="2_iycvg"]
+[ext_resource type="Material" uid="uid://332ceycpu564" path="res://world_texture.tres" id="5_sm3ed"]
+
+[sub_resource type="Gradient" id="Gradient_vjjhh"]
+colors = PackedColorArray(0, 0, 0, 1, 0.17, 0.0748, 0.0748, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8hx17"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r05g8"]
+width = 1280
+height = 720
+color_ramp = SubResource("Gradient_vjjhh")
+noise = SubResource("FastNoiseLite_8hx17")
+
+[sub_resource type="LabelSettings" id="LabelSettings_gn4om"]
+font_size = 136
+font_color = Color(1, 0.172549, 0.313726, 1)
+outline_size = 35
+outline_color = Color(0.0470588, 0.0470588, 0.0470588, 1)
+
+[sub_resource type="Environment" id="Environment_d51t4"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_o1bhu"]
+material = ExtResource("5_sm3ed")
+size = Vector2(3, 10)
+
+[sub_resource type="Gradient" id="Gradient_wvy27"]
+offsets = PackedFloat32Array(0.623269, 0.731302)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a6li4"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_7mq4t"]
+width = 600
+height = 2000
+color_ramp = SubResource("Gradient_wvy27")
+noise = SubResource("FastNoiseLite_a6li4")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1u5u5"]
+transparency = 1
+albedo_texture = SubResource("NoiseTexture2D_7mq4t")
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_x0q3e"]
+material = SubResource("StandardMaterial3D_1u5u5")
+size = Vector2(3, 10)
+
+[node name="World" type="Node3D"]
+
+[node name="2d Elements" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="2d Elements"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("NoiseTexture2D_r05g8")
+
+[node name="Panel" type="Panel" parent="2d Elements"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="2d Elements"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -340.0
+offset_right = 256.0
+offset_bottom = 340.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="2d Elements/SubViewportContainer2"]
+transparent_bg = true
+handle_input_locally = false
+canvas_item_default_texture_filter = 0
+size = Vector2i(512, 680)
+render_target_update_mode = 4
+
+[node name="Game" type="CanvasLayer" parent="2d Elements/SubViewportContainer2/SubViewport"]
+
+[node name="Label" type="Label" parent="2d Elements/SubViewportContainer2/SubViewport/Game"]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("2_be7dk")
+metadata/_edit_use_anchors_ = true
+
+[node name="World" parent="2d Elements/SubViewportContainer2/SubViewport/Game" instance=ExtResource("2_iycvg")]
+
+[node name="Camera3D" type="Camera3D" parent="2d Elements/SubViewportContainer2/SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.422618, 0.906308, 0, -0.906308, 0.422618, 0, 1.5, 0)
+current = true
+fov = 60.0
+script = ExtResource("1_s73ak")
+
+[node name="FPS" type="Label" parent="2d Elements"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_yhw17")
+
+[node name="Label" type="Label" parent="2d Elements"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 161.0
+offset_right = 340.0
+offset_bottom = 490.0
+text = "Fart"
+label_settings = SubResource("LabelSettings_gn4om")
+
+[node name="Label2" type="Label" parent="2d Elements"]
+layout_mode = 0
+offset_left = 935.0
+offset_top = 166.0
+offset_right = 1219.0
+offset_bottom = 495.0
+text = "Shit"
+label_settings = SubResource("LabelSettings_gn4om")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_d51t4")
+
+[node name="Terrain" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -4.5)
+mesh = SubResource("PlaneMesh_o1bhu")
+
+[node name="Clouds" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -4.5)
+mesh = SubResource("PlaneMesh_x0q3e")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.807074, 0.295225, -0.511345, 0.0698913, 0.812171, 0.579219, 0.5863, -0.503211, 0.634848, -2.0034, 3.11278, 0.667908)

@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://cskrsms0ftyhr"]
+
+[ext_resource type="Script" path="res://bullet.gd" id="1_4hl77"]
+[ext_resource type="Texture2D" uid="uid://5ah5w2chv0f7" path="res://player_bullet_0.png" id="2_hwdfu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nohbf"]
+size = Vector2(16, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5jw0q"]
+size = Vector2(18, 14)
+
+[sub_resource type="Curve" id="Curve_purak"]
+_data = [Vector2(0.0093458, 0.4), 0.0, 0.0, 0, 0, Vector2(0.308411, 0.378947), -0.462079, -0.462079, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_7itcy"]
+offsets = PackedFloat32Array(0, 0.794805)
+colors = PackedColorArray(0.52, 0.52, 0.52, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_peufa"]
+_data = [Vector2(0, 0.505263), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="Gradient" id="Gradient_22wot"]
+offsets = PackedFloat32Array(0, 0.994805)
+colors = PackedColorArray(1, 0, 0.968627, 0.262745, 0.635294, 0, 0.721569, 0.756863)
+
+[node name="Bullet" type="RigidBody2D"]
+collision_mask = 2
+mass = 0.05
+gravity_scale = 0.0
+script = ExtResource("1_4hl77")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_nohbf")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.0588235, 0.466667, 1)
+texture_filter = 1
+rotation = 1.5708
+scale = Vector2(2, 2)
+texture = ExtResource("2_hwdfu")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_5jw0q")
+
+[node name="Line2D" type="Line2D" parent="."]
+visible = false
+points = PackedVector2Array(0, 0, -8, 0, -37, 0)
+width_curve = SubResource("Curve_purak")
+gradient = SubResource("Gradient_7itcy")
+
+[node name="Line2D2" type="Line2D" parent="."]
+visible = false
+z_index = 1
+points = PackedVector2Array(7, 0, -7, 0)
+width_curve = SubResource("Curve_peufa")
+gradient = SubResource("Gradient_22wot")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2

@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://7b783qqphe7l"]
+
+[ext_resource type="Script" path="res://drone.gd" id="1_cxiu7"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_6gqxl"]
+size = Vector2(32, 32)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_d0emf"]
+noise_type = 0
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ll1ot"]
+width = 16
+height = 16
+seamless = true
+noise = SubResource("FastNoiseLite_d0emf")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_07whn"]
+size = Vector2(34, 34)
+
+[node name="Drone" type="Node2D" groups=["enemy"]]
+script = ExtResource("1_cxiu7")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+texture_filter = 1
+mesh = SubResource("QuadMesh_6gqxl")
+texture = SubResource("NoiseTexture2D_ll1ot")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_07whn")

@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://pq52ptdn0twb"]
+
+[ext_resource type="Script" path="res://sub_wave.gd" id="1_ploqc"]
+[ext_resource type="PackedScene" uid="uid://7b783qqphe7l" path="res://drone.tscn" id="2_wxsef"]
+
+[sub_resource type="Curve2D" id="Curve2D_hcfd5"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 476, -380, -74.751, -364.411, 74.751, 364.411, 608, 34, 431.478, 261.022, -431.478, -261.022, -358, 304, -273.642, 108.122, 273.642, -108.122, -146, -54, 0, 0, 0, 0, 43, -376)
+}
+point_count = 5
+
+[node name="sub_wave_001" type="Node2D"]
+script = ExtResource("1_ploqc")
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_hcfd5")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
+position = Vector2(476, -380)
+rotation = 1.26215
+rotates = false
+
+[node name="Drone" parent="Path2D/PathFollow2D" instance=ExtResource("2_wxsef")]
+position = Vector2(48, 0)
+
+[node name="Drone2" parent="Path2D/PathFollow2D" instance=ExtResource("2_wxsef")]
+position = Vector2(0, 32)
+
+[node name="Drone3" parent="Path2D/PathFollow2D" instance=ExtResource("2_wxsef")]
+position = Vector2(-48, 0)
